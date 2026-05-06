@@ -1396,7 +1396,7 @@
                   class="cost-item-value total-cost-value"
                   id="total-cost-value"
                 >
-                  0 개
+                  0 개 (0 장명주)
                 </div>
               </div>
               <div class="cost-item">
@@ -1722,7 +1722,7 @@
               <div class="attribute-item purple-attribute">보라·세트2</div>
               <div class="attribute-item purple-attribute">보라·살구분홍</div>
               <div class="attribute-item purple-attribute">보라·연남</div>
-              <div class="attribute-item purple-attribute">보라·수색</div>
+              <div class="attribute-item purple-attribute">보라·물색</div>
               <div class="attribute-item purple-attribute">보라·두견</div>
               <div class="attribute-item purple-attribute">보라·미초</div>
               <div class="attribute-item purple-attribute">보라·남귤</div>
@@ -2064,55 +2064,55 @@
           }
 
           holeSetting.innerHTML = `
-      <div class="custom-hole-header">
-        <div class="custom-hole-title">슬롯 ${hole.id}</div>
-        <div class="custom-checkbox-label">
-          <input type="checkbox" class="custom-checkbox" id="custom-active-${hole.id}" 
-              ${hole.active ? "checked" : ""} ${hole.id === 5 && hole.active ? "disabled" : ""}>
-          <label for="custom-active-${hole.id}">활성화됨</label>
-        </div>
-      </div>
-      <div class="custom-hole-content">
-        <div class="custom-control-group">
-          <label class="custom-control-label">등급</label>
-          <select class="custom-select" id="custom-quality-${hole.id}" ${!hole.active || (hole.id === 5 && hole.active) ? "disabled" : ""}>
-            <option value="blue" ${currentQuality === "blue" ? "selected" : ""}>파랑</option>
-            <option value="purple" ${currentQuality === "purple" ? "selected" : ""}>보라</option>
-            <option value="gold" ${currentQuality === "gold" ? "selected" : ""}>금색</option>
-          </select>
-        </div>
-        <div class="custom-control-group">
-          <label class="custom-control-label">속성</label>
-          <select class="custom-select" id="custom-attribute-${hole.id}" ${!hole.active || (hole.id === 5 && hole.active) ? "disabled" : ""}>
-            ${attributeOptions}
-          </select>
-        </div>
-        <div class="custom-control-group">
-          <label class="custom-control-label">활성화 진행도 (${hole.progress.toFixed(0)}%)</label>
-          <input type="range" class="custom-input" id="custom-progress-${hole.id}" 
-              min="0" max="100" step="0.1" value="${hole.progress}" ${hole.active ? "disabled" : ""}>
-          <div class="custom-value-display" id="custom-progress-value-${hole.id}">${hole.progress.toFixed(0)}%</div>
-        </div>
-        <div class="custom-control-group">
-          <label class="custom-control-label">금색 천장 카운트</label>
-          <input type="number" class="custom-input" id="custom-guarantee-${hole.id}" 
-              min="0" max="90" value="${hole.guaranteeCounter}" ${hole.id === 5 ? "disabled" : ""}>
-        </div>
-        ${
-          hole.id <= 4
-            ? `
-        <div class="custom-control-group">
+        <div class="custom-hole-header">
+          <div class="custom-hole-title">슬롯 ${hole.id}</div>
           <div class="custom-checkbox-label">
-            <input type="checkbox" class="custom-checkbox" id="custom-locked-${hole.id}" 
-                ${hole.locked ? "checked" : ""} ${!hole.active ? "disabled" : ""}>
-            <label for="custom-locked-${hole.id}">잠금</label>
+            <input type="checkbox" class="custom-checkbox" id="custom-active-${hole.id}"
+                ${hole.active ? "checked" : ""} ${hole.id === 5 && hole.active ? "disabled" : ""}>
+            <label for="custom-active-${hole.id}">활성화됨</label>
           </div>
         </div>
-        `
-            : ""
-        }
-      </div>
-    `;
+        <div class="custom-hole-content">
+          <div class="custom-control-group">
+            <label class="custom-control-label">등급</label>
+            <select class="custom-select" id="custom-quality-${hole.id}" ${!hole.active || (hole.id === 5 && hole.active) ? "disabled" : ""}>
+              <option value="blue" ${currentQuality === "blue" ? "selected" : ""}>파랑</option>
+              <option value="purple" ${currentQuality === "purple" ? "selected" : ""}>보라</option>
+              <option value="gold" ${currentQuality === "gold" ? "selected" : ""}>금색</option>
+            </select>
+          </div>
+          <div class="custom-control-group">
+            <label class="custom-control-label">속성</label>
+            <select class="custom-select" id="custom-attribute-${hole.id}" ${!hole.active || (hole.id === 5 && hole.active) ? "disabled" : ""}>
+              ${attributeOptions}
+            </select>
+          </div>
+          <div class="custom-control-group">
+            <label class="custom-control-label">활성화 진행도 (${hole.progress.toFixed(0)}%)</label>
+            <input type="range" class="custom-input" id="custom-progress-${hole.id}"
+                min="0" max="100" step="0.1" value="${hole.progress}" ${hole.active ? "disabled" : ""}>
+            <div class="custom-value-display" id="custom-progress-value-${hole.id}">${hole.progress.toFixed(0)}%</div>
+          </div>
+          <div class="custom-control-group">
+            <label class="custom-control-label">금색 천장 카운트</label>
+            <input type="number" class="custom-input" id="custom-guarantee-${hole.id}"
+                min="0" max="90" value="${hole.guaranteeCounter}" ${hole.id === 5 ? "disabled" : ""}>
+          </div>
+          ${
+            hole.id <= 4
+              ? `
+          <div class="custom-control-group">
+            <div class="custom-checkbox-label">
+              <input type="checkbox" class="custom-checkbox" id="custom-locked-${hole.id}"
+                  ${hole.locked ? "checked" : ""} ${!hole.active ? "disabled" : ""}>
+              <label for="custom-locked-${hole.id}">잠금</label>
+            </div>
+          </div>
+          `
+              : ""
+          }
+        </div>
+      `;
 
           container.appendChild(holeSetting);
 
@@ -2561,55 +2561,55 @@
           }
 
           schemeItem.innerHTML = `
-      <div class="scheme-header">
-        <div class="scheme-name" style="${scheme.type === "temp" ? "color: #90caf9;" : goldCount > 0 ? "color: #ffd54f;" : "color: #ff9800;"}">
-          ${scheme.name} (${goldCount}개 금색)
-          ${scheme.type === "temp" ? '<span style="color: #90caf9; font-size: 0.8rem;">[임시 저장]</span>' : ""}
+        <div class="scheme-header">
+          <div class="scheme-name" style="${scheme.type === "temp" ? "color: #90caf9;" : goldCount > 0 ? "color: #ffd54f;" : "color: #ff9800;"}">
+            ${scheme.name} (${goldCount}개 금색)
+            ${scheme.type === "temp" ? '<span style="color: #90caf9; font-size: 0.8rem;">[임시 저장]</span>' : ""}
+          </div>
+          <div class="scheme-time">${scheme.timestamp}</div>
         </div>
-        <div class="scheme-time">${scheme.timestamp}</div>
-      </div>
-      <div class="scheme-holes">
-        ${scheme.holes
-          .map((hole) => {
-            let qualityText = "";
-            let attributeText = "";
+        <div class="scheme-holes">
+          ${scheme.holes
+            .map((hole) => {
+              let qualityText = "";
+              let attributeText = "";
 
-            if (!hole.active) {
-              return `<div class="scheme-hole inactive">
-              <div class="scheme-hole-number">${hole.id}</div>
-              <div class="scheme-hole-quality">비활성</div>
-              <div class="scheme-hole-attribute">진행도: ${Math.round(hole.progress)}%</div>
-            </div>`;
-            } else {
-              if (hole.quality === "blue") {
-                qualityText = "파랑";
-                attributeText = "파랑·" + hole.attribute;
-              } else if (hole.quality === "purple") {
-                qualityText = "보라";
-                attributeText = "보라·" + hole.attribute;
-              } else if (hole.quality === "gold") {
-                qualityText = "금색";
-                if (hole.id === 5 && hole.attribute === "요일") {
-                  attributeText = "금·요일";
-                } else {
-                  attributeText = "금·" + hole.attribute;
+              if (!hole.active) {
+                return `<div class="scheme-hole inactive">
+                <div class="scheme-hole-number">${hole.id}</div>
+                <div class="scheme-hole-quality">비활성</div>
+                <div class="scheme-hole-attribute">진행도: ${Math.round(hole.progress)}%</div>
+              </div>`;
+              } else {
+                if (hole.quality === "blue") {
+                  qualityText = "파랑";
+                  attributeText = "파랑·" + hole.attribute;
+                } else if (hole.quality === "purple") {
+                  qualityText = "보라";
+                  attributeText = "보라·" + hole.attribute;
+                } else if (hole.quality === "gold") {
+                  qualityText = "금색";
+                  if (hole.id === 5 && hole.attribute === "요일") {
+                    attributeText = "금·요일";
+                  } else {
+                    attributeText = "금·" + hole.attribute;
+                  }
                 }
-              }
 
-              return `<div class="scheme-hole ${hole.quality}">
-              <div class="scheme-hole-number">${hole.id}</div>
-              <div class="scheme-hole-quality">${qualityText}</div>
-              <div class="scheme-hole-attribute" title="${attributeText}">${attributeText}</div>
-            </div>`;
-            }
-          })
-          .join("")}
-      </div>
-      <div class="scheme-actions">
-        <button class="scheme-btn scheme-btn-apply" onclick="applyScheme(${scheme.id})">프리셋 적용</button>
-        <button class="scheme-btn scheme-btn-delete" onclick="deleteScheme(${scheme.id})">삭제</button>
-      </div>
-    `;
+                return `<div class="scheme-hole ${hole.quality}">
+                <div class="scheme-hole-number">${hole.id}</div>
+                <div class="scheme-hole-quality">${qualityText}</div>
+                <div class="scheme-hole-attribute" title="${attributeText}">${attributeText}</div>
+              </div>`;
+              }
+            })
+            .join("")}
+        </div>
+        <div class="scheme-actions">
+          <button class="scheme-btn scheme-btn-apply" onclick="applyScheme(${scheme.id})">프리셋 적용</button>
+          <button class="scheme-btn scheme-btn-delete" onclick="deleteScheme(${scheme.id})">삭제</button>
+        </div>
+      `;
 
           // 테두리 색상 설정
           schemeItem.style.borderLeftColor = borderColor;
@@ -2809,52 +2809,52 @@
           ).length;
 
           schemeItem.innerHTML = `
-          <div class="scheme-header">
-            <div class="scheme-name">${scheme.name} (${goldCount}개 금색)</div>
-            <div class="scheme-time">${scheme.timestamp}</div>
-          </div>
-          <div class="scheme-holes">
-            ${scheme.holes
-              .map((hole) => {
-                let qualityText = "";
-                let attributeText = "";
+            <div class="scheme-header">
+              <div class="scheme-name">${scheme.name} (${goldCount}개 금색)</div>
+              <div class="scheme-time">${scheme.timestamp}</div>
+            </div>
+            <div class="scheme-holes">
+              ${scheme.holes
+                .map((hole) => {
+                  let qualityText = "";
+                  let attributeText = "";
 
-                if (!hole.active) {
-                  return `<div class="scheme-hole inactive">
-                  <div class="scheme-hole-number">${hole.id}</div>
-                  <div class="scheme-hole-quality">비활성</div>
-                  <div class="scheme-hole-attribute">진행도: ${Math.round(hole.progress)}%</div>
-                </div>`;
-                } else {
-                  if (hole.quality === "blue") {
-                    qualityText = "파랑";
-                    attributeText = "파랑·" + hole.attribute;
-                  } else if (hole.quality === "purple") {
-                    qualityText = "보라";
-                    attributeText = "보라·" + hole.attribute;
-                  } else if (hole.quality === "gold") {
-                    qualityText = "금색";
-                    if (hole.id === 5 && hole.attribute === "요일") {
-                      attributeText = "금·요일";
-                    } else {
-                      attributeText = "금·" + hole.attribute;
+                  if (!hole.active) {
+                    return `<div class="scheme-hole inactive">
+                    <div class="scheme-hole-number">${hole.id}</div>
+                    <div class="scheme-hole-quality">비활성</div>
+                    <div class="scheme-hole-attribute">진행도: ${Math.round(hole.progress)}%</div>
+                  </div>`;
+                  } else {
+                    if (hole.quality === "blue") {
+                      qualityText = "파랑";
+                      attributeText = "파랑·" + hole.attribute;
+                    } else if (hole.quality === "purple") {
+                      qualityText = "보라";
+                      attributeText = "보라·" + hole.attribute;
+                    } else if (hole.quality === "gold") {
+                      qualityText = "금색";
+                      if (hole.id === 5 && hole.attribute === "요일") {
+                        attributeText = "금·요일";
+                      } else {
+                        attributeText = "금·" + hole.attribute;
+                      }
                     }
-                  }
 
-                  return `<div class="scheme-hole ${hole.quality}">
-                  <div class="scheme-hole-number">${hole.id}</div>
-                  <div class="scheme-hole-quality">${qualityText}</div>
-                  <div class="scheme-hole-attribute" title="${attributeText}">${attributeText}</div>
-                </div>`;
-                }
-              })
-              .join("")}
-          </div>
-          <div class="scheme-actions">
-            <button class="scheme-btn scheme-btn-apply" onclick="applyScheme(${scheme.id})">프리셋 적용</button>
-            <button class="scheme-btn scheme-btn-delete" onclick="deleteScheme(${scheme.id})">삭제</button>
-          </div>
-        `;
+                    return `<div class="scheme-hole ${hole.quality}">
+                    <div class="scheme-hole-number">${hole.id}</div>
+                    <div class="scheme-hole-quality">${qualityText}</div>
+                    <div class="scheme-hole-attribute" title="${attributeText}">${attributeText}</div>
+                  </div>`;
+                  }
+                })
+                .join("")}
+            </div>
+            <div class="scheme-actions">
+              <button class="scheme-btn scheme-btn-apply" onclick="applyScheme(${scheme.id})">프리셋 적용</button>
+              <button class="scheme-btn scheme-btn-delete" onclick="deleteScheme(${scheme.id})">삭제</button>
+            </div>
+          `;
 
           schemeList.appendChild(schemeItem);
         });
@@ -3693,7 +3693,7 @@
       // 총 비용 표시 업데이트
       function updateTotalCostDisplay() {
         document.getElementById("total-cost-value").textContent =
-          weaponState.totalCost.toFixed(0) + " 개";
+          `${weaponState.totalCost.toFixed(0)}개 (${weaponState.totalCost.toFixed(0) * 200} 장명주)`;
         document.getElementById("cost-breakdown").textContent =
           `재련 횟수: ${weaponState.reforgeCount}회`;
       }
