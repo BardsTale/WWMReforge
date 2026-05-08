@@ -101,7 +101,7 @@
       .hole {
         min-width: 140px;
         width: 140px;
-        height: 200px;
+        height: 280px;
         border-radius: 8px;
         display: flex;
         flex-direction: column;
@@ -147,6 +147,15 @@
         padding: 2px 6px;
         border-radius: 4px;
         background: rgba(0, 0, 0, 0.3);
+      }
+
+      .gold-control {
+        text-align: center;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        padding: 5px 6px;
+        border-radius: 4px;
+        background: rgba(48, 48, 48, 0.3);
       }
 
       .blue {
@@ -1193,6 +1202,13 @@
           height: 75px;
         }
       }
+
+      .tooltip {
+        height: 20px;
+        align-content: end;
+        cursor: pointer;
+        margin-left: 5px;
+      }
     </style>
   </head>
   <body>
@@ -1241,6 +1257,21 @@
               <input type="checkbox" class="lock-checkbox" id="lock-1" />
               <label for="lock-1">잠금</label>
             </div>
+            <div class="gold-control">
+              금휘 제어
+              <i
+                class="tooltip fas fa-info-circle"
+                title="천장 전 금휘 속성의 출현 유무를 강제로 설정합니다."
+              ></i>
+
+              <div class="lock-control">
+                <input type="checkbox" class="lock-checkbox" id="gold_lock-1" />
+                <label for="gold_lock-1">잠금</label>
+                &nbsp;
+                <input type="checkbox" class="lock-checkbox" id="gold_pick-1" />
+                <label for="gold_pick-1">확정</label>
+              </div>
+            </div>
           </div>
 
           <!-- 슬롯2 -->
@@ -1266,6 +1297,21 @@
                 disabled
               />
               <label for="lock-2">잠금</label>
+            </div>
+            <div class="gold-control">
+              금휘 제어
+              <i
+                class="tooltip fas fa-info-circle"
+                title="천장 전 금휘 속성의 출현 유무를 강제로 설정합니다."
+              ></i>
+
+              <div class="lock-control">
+                <input type="checkbox" class="lock-checkbox" id="gold_lock-2" />
+                <label for="gold_lock-2">잠금</label>
+                &nbsp;
+                <input type="checkbox" class="lock-checkbox" id="gold_pick-2" />
+                <label for="gold_pick-2">확정</label>
+              </div>
             </div>
           </div>
 
@@ -1293,6 +1339,21 @@
               />
               <label for="lock-3">잠금</label>
             </div>
+            <div class="gold-control">
+              금휘 제어
+              <i
+                class="tooltip fas fa-info-circle"
+                title="천장 전 금휘 속성의 출현 유무를 강제로 설정합니다."
+              ></i>
+
+              <div class="lock-control">
+                <input type="checkbox" class="lock-checkbox" id="gold_lock-3" />
+                <label for="gold_lock-3">잠금</label>
+                &nbsp;
+                <input type="checkbox" class="lock-checkbox" id="gold_pick-3" />
+                <label for="gold_pick-3">확정</label>
+              </div>
+            </div>
           </div>
 
           <!-- 슬롯4 -->
@@ -1318,6 +1379,21 @@
                 disabled
               />
               <label for="lock-4">잠금</label>
+            </div>
+            <div class="gold-control">
+              금휘 제어
+              <i
+                class="tooltip fas fa-info-circle"
+                title="천장 전 금휘 속성의 출현 유무를 강제로 설정합니다."
+              ></i>
+
+              <div class="lock-control">
+                <input type="checkbox" class="lock-checkbox" id="gold_lock-4" />
+                <label for="gold_lock-4">잠금</label>
+                &nbsp;
+                <input type="checkbox" class="lock-checkbox" id="gold_pick-4" />
+                <label for="gold_pick-4">확정</label>
+              </div>
             </div>
           </div>
 
@@ -1709,7 +1785,7 @@
               <div class="attribute-item blue-attribute">파랑·주란</div>
               <div class="attribute-item blue-attribute">파랑·송록</div>
               <div class="attribute-item blue-attribute">파랑·아황</div>
-              <div class="attribute-item blue-attribute">파랑·모자</div>
+              <div class="attribute-item blue-attribute">파랑·저녁 보랏빛</div>
               <div class="attribute-item blue-attribute">파랑·우회</div>
               <div class="attribute-item blue-attribute">파랑·묵진</div>
             </div>
@@ -1872,6 +1948,8 @@
             quality: "blue",
             attribute: "세트1",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 100,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -1882,6 +1960,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -1892,6 +1972,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -1902,6 +1984,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -1977,6 +2061,39 @@
             .addEventListener("change", function () {
               weaponState.holes[i - 1].locked = this.checked;
               updateLockControls();
+              saveState();
+            });
+
+          document
+            .getElementById(`gold_lock-${i}`)
+            .addEventListener("change", function () {
+              weaponState.holes[i - 1].goldLocked = this.checked;
+
+              if (this.checked) {
+                const checkboxGoldPick = document.getElementById(
+                  `gold_pick-${i}`,
+                );
+                checkboxGoldPick.checked = false;
+                checkboxGoldPick.classList.remove("disabled-by-lock3");
+                weaponState.holes[i - 1].goldPicked = false;
+              }
+
+              saveState();
+            });
+
+          document
+            .getElementById(`gold_pick-${i}`)
+            .addEventListener("change", function () {
+              weaponState.holes[i - 1].goldPicked = this.checked;
+
+              if (this.checked) {
+                const checkboxGoldLock = document.getElementById(
+                  `gold_lock-${i}`,
+                );
+                checkboxGoldLock.checked = false;
+                checkboxGoldLock.classList.remove("disabled-by-lock3");
+                weaponState.holes[i - 1].goldLocked = false;
+              }
               saveState();
             });
         }
@@ -3084,9 +3201,13 @@
               // 천장 발동, 반드시 금색
               isGold = true;
             } else {
-              // 사용동적금색확률
-              const goldProbability =
-                getGoldProbability(weaponState.holes[i].guaranteeCounter) * 100;
+              // 동적 금색 확률 적용(천장에 가까울 수록 등장 확률 상승)
+              // 금휘 제어에 따라 적용 시 출현율 0% or 100%으로 설정
+              const goldProbability = weaponState.holes[i].goldPicked
+                ? 100
+                : getGoldProbability(weaponState.holes[i].guaranteeCounter) *
+                  100 *
+                  Number(!weaponState.holes[i].goldLocked);
               const purpleProbability = 15; // 보라 고정 15%
               const blueProbability = 100 - goldProbability - purpleProbability; // 파랑은 나머지 확률
 
@@ -3381,6 +3502,8 @@
             quality: "blue",
             attribute: "세트1",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 100,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -3391,6 +3514,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -3401,6 +3526,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -3411,6 +3538,8 @@
             quality: "blue",
             attribute: "",
             locked: false,
+            goldLocked: false,
+            goldPicked: false,
             progress: 0,
             guaranteeCounter: 0,
             activationAttempts: 0,
@@ -3439,6 +3568,14 @@
           checkbox.checked = false;
           checkbox.disabled = true;
           checkbox.classList.remove("disabled-by-lock3");
+
+          const checkboxGoldLock = document.getElementById(`gold_lock-${i}`);
+          checkboxGoldLock.checked = false;
+          checkboxGoldLock.classList.remove("disabled-by-lock3");
+
+          const checkboxGoldPick = document.getElementById(`gold_pick-${i}`);
+          checkboxGoldPick.checked = false;
+          checkboxGoldPick.classList.remove("disabled-by-lock3");
 
           if (i === 1) {
             checkbox.disabled = false;
