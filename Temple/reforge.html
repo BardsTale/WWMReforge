@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>공명 무기 재련 계산기 1.3</title>
+    <title>공명 무기 재련 계산기 1.5</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -1218,7 +1218,7 @@
         <div class="subtitle">연운 공명 무기 스킨 재련 도구</div>
         <div class="author-info">
           <span
-            ><i class="fas fa-user"></i> 제작자:
+            ><i class="fas fa-user"></i> 원작자:
             <a
               href="https://space.bilibili.com/5052038"
               target="_blank"
@@ -1227,7 +1227,8 @@
             ></span
           >
           <span
-            ><i class="fas fa-calendar-alt"></i> 버전 날짜: v1.3_20251220</span
+            ><i class="fas fa-calendar-alt"></i> 버전 날짜:
+            v1.5_20260510(alt)</span
           >
         </div>
       </header>
@@ -1936,6 +1937,45 @@
         },
         hole5: {
           gold: ["요일"],
+        },
+      };
+
+      // 세트 없는 색상 속성 정의
+      const attributesExcludeSet = {
+        hole1: {
+          blue: [
+            "연지",
+            "청금",
+            "창망",
+            "주란",
+            "송록",
+            "아황",
+            "모자",
+            "우회",
+            "묵진",
+          ],
+          purple: [
+            "살구분홍",
+            "연남",
+            "수색",
+            "두견",
+            "미초",
+            "남귤",
+            "등자",
+            "백패",
+            "한아",
+          ],
+          gold: [
+            "복숭아 수정",
+            "용연",
+            "빙천",
+            "홍금",
+            "벽옥",
+            "황금",
+            "자류",
+            "진주",
+            "흑요석",
+          ],
         },
       };
 
@@ -2991,7 +3031,7 @@
       }
 
       // 랜덤 속성 가져오기
-      function getRandomAttribute(holeNumber, quality) {
+      function getRandomAttribute(holeNumber, quality, nonSet) {
         let attributeList = [];
         let prefix = "";
 
@@ -3007,7 +3047,10 @@
         }
 
         if (holeNumber === 1) {
-          attributeList = attributes.hole1[quality] || [];
+          attributeList =
+            (nonSet
+              ? attributesExcludeSet.hole1[quality]
+              : attributes.hole1[quality]) || [];
         } else if (holeNumber >= 2 && holeNumber <= 4) {
           attributeList = attributes.hole234[quality] || [];
         } else if (holeNumber === 5) {
@@ -3250,6 +3293,29 @@
             // 슬롯 등급과 속성 업데이트
             weaponState.holes[i].quality = newQuality;
             weaponState.holes[i].attribute = newAttribute;
+          }
+        }
+
+        /* 1번 슬롯 세트 점검 */
+        // 1번 슬롯의 세트는 2,3,4번 슬롯에서 동일 퀄리티의 세트가 있어야 등장이 가능.
+        if (weaponState.holes[0].attribute.indexOf("세트") > -1) {
+          let isSet = false;
+          for (let i = 1; i < 4; i++) {
+            if (
+              weaponState.holes[0].quality === weaponState.holes[i].quality &&
+              weaponState.holes[0].attribute === weaponState.holes[i].attribute
+            ) {
+              isSet = true;
+            }
+          }
+          // 세트가 아닌 경우 동일 등급에서 다시 선택
+          if (!isSet) {
+            const attribute = getRandomAttribute(
+              1,
+              weaponState.holes[0].quality,
+              true,
+            );
+            weaponState.holes[0].attribute = attribute.name;
           }
         }
 
