@@ -1214,7 +1214,7 @@
   <body>
     <div class="container">
       <header>
-        <h1><i class="fas fa-calculator"></i> 공명 무기 재련 계산기 1.3</h1>
+        <h1><i class="fas fa-calculator"></i> 공명 무기 재련 계산기 1.5</h1>
         <div class="subtitle">연운 공명 무기 스킨 재련 도구</div>
         <div class="author-info">
           <span
@@ -1564,8 +1564,7 @@
             <li>
               <span class="gold-warning"
                 >프리셋 저장: 최대 5개까지 저장 가능하며, 활성화
-                진행도/등급/속성을 포함하고 금색 천장 카운트는 0으로
-                초기화됨</span
+                진행도/등급/속성을 포함하고 천장 카운트는 이전 값 유지</span
               >
             </li>
             <li>
@@ -1624,7 +1623,7 @@
 
       <footer>
         <p>
-          © 2025 공명 무기 계산기 1.3 | 이 도구는 기록과 계산용이며, 게임 내
+          © 2026 공명 무기 계산기 1.5 | 이 도구는 기록과 계산용이며, 게임 내
           실제 확률과 계산 결과의 일치를 보장하지 않습니다
         </p>
       </footer>
@@ -1689,6 +1688,30 @@
           <span>사용자 설정</span>
         </div>
         <div class="modal-content">
+          <!-- 총 비용 재설정 -->
+          <div class="custom-control-group">
+            <label class="custom-control-label">총 비용 재설정</label>
+            <input
+              type="number"
+              class="custom-input"
+              id="custom-cost"
+              min="0"
+              value="0"
+            />
+          </div>
+
+          <!-- 재련 횟수 재설정 -->
+          <div class="custom-control-group">
+            <label class="custom-control-label">재련 횟수 재설정</label>
+            <input
+              type="number"
+              class="custom-input"
+              id="custom-reforge"
+              min="0"
+              value="0"
+            />
+          </div>
+
           <div id="custom-holes-container">
             <!-- 슬롯 설정은 동적으로 생성됩니다 -->
           </div>
@@ -2181,6 +2204,14 @@
       function showCustomSettings() {
         closeCustomConfirm();
 
+        // 총 비용 재설정
+        const totalCost = document.getElementById("custom-cost");
+        totalCost.value = weaponState.totalCost;
+
+        // 재련 횟수 재설정
+        const reforgeCount = document.getElementById("custom-reforge");
+        reforgeCount.value = weaponState.reforgeCount;
+
         // 구성사용자 설정화면
         const container = document.getElementById("custom-holes-container");
         container.innerHTML = "";
@@ -2411,6 +2442,16 @@
 
       // 저장사용자 설정
       function saveCustomSettings() {
+        // 총 비용 재설정
+        weaponState.totalCost =
+          document.getElementById("custom-cost").value * 1;
+
+        // 재련 횟수 재설정
+        weaponState.reforgeCount =
+          document.getElementById("custom-reforge").value * 1;
+
+        updateTotalCostDisplay();
+
         // 모든 설정 수집
         const newHoles = [];
         let hasActiveHole5 = false;
@@ -3222,6 +3263,7 @@
             qualityChanges.push({
               hole: holeIndex + 1,
               change: "금색초기화: 파랑",
+              count: 0,
             });
           }
         }
@@ -3262,6 +3304,7 @@
                 qualityChanges.push({
                   hole: i + 1,
                   change: `파랑(${attribute.display})`,
+                  count: weaponState.holes[i].guaranteeCounter,
                 });
               } else if (rand < blueProbability + purpleProbability) {
                 newQuality = "purple";
@@ -3270,6 +3313,7 @@
                 qualityChanges.push({
                   hole: i + 1,
                   change: `보라(${attribute.display})`,
+                  count: weaponState.holes[i].guaranteeCounter,
                 });
               } else {
                 isGold = true;
@@ -3287,6 +3331,7 @@
               qualityChanges.push({
                 hole: i + 1,
                 change: `금색(${attribute.display})`,
+                count: weaponState.holes[i].guaranteeCounter,
               });
             }
 
@@ -3526,7 +3571,7 @@
 
         if (qualityChanges.length > 0) {
           const changes = qualityChanges
-            .map((c) => `슬롯${c.hole} 변경: ${c.change}`)
+            .map((c) => `슬롯${c.hole} 변경: ${c.change} 천장치: ${c.count}`)
             .join(", ");
           historyText += `, ${changes}`;
         }
@@ -3545,7 +3590,7 @@
             addHistory("모든 슬롯 활성화 완료!", "info");
           }
         } else if (activationResult.hole) {
-          historyText += `, 슬롯${activationResult.hole}진행도${Math.round(activationResult.progress)}%`;
+          historyText += `, 슬롯${activationResult.hole} 진행도${Math.round(activationResult.progress)}%`;
         }
 
         addHistory(historyText, "info");
